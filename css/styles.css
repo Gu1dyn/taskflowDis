@@ -1,0 +1,693 @@
+/* TaskFlow — Estilos principales */
+/* Variables y estilos base */
+:root {
+  --navy: #122846;
+  --navy2: #183756;
+  --blue: #2875e7;
+  --sky: #43a9f7;
+  --light: #f5f8fe;
+  --ink: #182a45;
+  --muted: #76859c;
+  --line: #e3eaf5;
+  --white: white;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--light);
+  color: var(--ink);
+  font: 14px "Segoe UI", Arial, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Contenedor principal y navegación lateral */
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.side {
+  width: 245px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 15px;
+  background: linear-gradient(150deg, #142c4d, #13233c);
+  color: #e6f0fd;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 12px 26px;
+  border-bottom: 1px solid #ffffff18;
+  font-size: 26px;
+  font-weight: 750;
+}
+
+.brandicon {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: linear-gradient(140deg, #2d91ff, #54c4fb);
+  color: white;
+  transform: rotate(-8deg);
+}
+
+.side small {
+  margin: 27px 12px 12px;
+  color: #9fb3cd;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 2px 0;
+  padding: 14px 13px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: #dbe9fb;
+  text-align: left;
+}
+
+.nav:hover,
+.nav.active {
+  background: linear-gradient(95deg, #2874df, #1e5aba);
+  color: white;
+}
+
+.nav .ico {
+  width: 23px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.bottom {
+  margin-top: auto;
+}
+
+/* Cabecera y contenido */
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.top {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 34px;
+  border-bottom: 1px solid var(--line);
+  background: white;
+}
+
+.top input {
+  width: min(400px, 50vw);
+  padding: 13px 16px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--ink);
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 12px;
+}
+
+.identity strong {
+  font-size: 13px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #d7e8ff;
+  font-weight: bold;
+}
+
+.content {
+  max-width: 1600px;
+  margin: auto;
+  padding: 29px 33px 55px;
+}
+
+.pagehead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.pagehead h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+  font-weight: 750;
+}
+
+.sub {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Botones y controles */
+.btn {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--blue);
+  color: white;
+  box-shadow: 0 3px 8px #2875e71b;
+  font-weight: 600;
+}
+
+.btn:hover {
+  background: #175fce;
+}
+
+.btn.secondary {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: #2d4a72;
+  box-shadow: none;
+}
+
+.toolrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 24px;
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  padding: 5px;
+  border-radius: 11px;
+  background: white;
+}
+
+.tab {
+  padding: 10px 17px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: #576e8e;
+}
+
+.tab.active {
+  background: var(--blue);
+  color: white;
+}
+
+.search {
+  min-width: 225px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: white;
+}
+
+/* Paneles y tarjetas generales */
+.stat,
+.panel,
+.project,
+.task,
+.event,
+.teamcard {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 5px 20px #223b6310;
+}
+
+.panel {
+  padding: 22px;
+}
+
+.panel h2 {
+  margin: 0 0 18px;
+  font-size: 17px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #e6f2ff;
+  color: #287be4;
+  font-size: 11px;
+}
+
+.tag.red {
+  background: #fff0f1;
+  color: #ef596b;
+}
+
+.tag.green {
+  background: #e5f9f0;
+  color: #1ca76b;
+}
+
+.footnote {
+  margin-top: 24px;
+  color: #7b8ca3;
+  font-size: 12px;
+}
+
+.feedrow,
+.listrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.feedrow:last-child,
+.listrow:last-child {
+  border: 0;
+}
+
+.feedrow span {
+  color: #7a8ba2;
+  font-size: 12px;
+}
+
+/* Dashboard */
+.statgrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 21px;
+}
+
+.stat {
+  padding: 20px;
+}
+
+.stat .metric {
+  margin-top: 13px;
+  font-size: 28px;
+  font-weight: 750;
+}
+
+.stat .lbl {
+  color: #627791;
+}
+
+.stat .trend {
+  color: #14a878;
+  font-size: 12px;
+}
+
+.layout2 {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 20px;
+}
+
+.chart {
+  height: 220px;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding: 12px 10px;
+  border-bottom: 1px solid #d5e2f1;
+}
+
+.chartbar {
+  flex: 1;
+  border: 1px solid #b8d2ff;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(0deg, #93bfff, #e1edff);
+}
+
+/* Tablero de tareas */
+.boards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(195px, 1fr));
+  gap: 14px;
+}
+
+.lane {
+  padding: 12px;
+  border: 1px solid #e7eef8;
+  border-radius: 12px;
+  background: #f2f6fc;
+}
+
+.lanehead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #5d7ba1;
+}
+
+.count {
+  margin-left: auto;
+  padding: 3px 9px;
+  border-radius: 40px;
+  background: #e2edfa;
+  color: #355371;
+}
+
+.task {
+  min-height: 145px;
+  margin: 11px 0;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.task:hover,
+.project:hover {
+  border-color: #8ab7f9;
+}
+
+.task strong {
+  display: block;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+.task p {
+  color: #7e8da2;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.taskfoot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  color: #69809c;
+  font-size: 11px;
+}
+
+/* Proyectos */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 17px;
+}
+
+.project {
+  padding: 22px;
+  cursor: pointer;
+}
+
+.project h2 {
+  font-size: 18px;
+}
+
+.bar {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #e5edf7;
+}
+
+.bar b {
+  height: 100%;
+  display: block;
+  background: linear-gradient(90deg, #2c72e2, #54b3fd);
+}
+
+/* Calendario */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.day {
+  min-height: 110px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: white;
+  color: #4d6485;
+}
+
+.day strong {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.pill {
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background: #e9f2ff;
+  color: #1e66cc;
+  font-size: 11px;
+}
+
+/* Equipo */
+.teams {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 17px;
+}
+
+.teamcard {
+  padding: 23px;
+  text-align: center;
+}
+
+.round {
+  width: 61px;
+  height: 61px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 13px;
+  border-radius: 50%;
+  background: #dceaff;
+  color: #235daa;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Formularios y pantallas de detalle */
+.form {
+  max-width: 740px;
+  padding: 27px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: white;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d9e5f3;
+  border-radius: 8px;
+  background: white;
+  color: #334861;
+  font: inherit;
+}
+
+.field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.notice {
+  margin: 14px 0;
+  padding: 13px;
+  border: 1px solid #a8ceff;
+  border-radius: 10px;
+  background: #edf5ff;
+  color: #2767ba;
+}
+
+.detail {
+  max-width: 790px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+}
+
+.detail h2 {
+  font-size: 25px;
+}
+
+.detail p {
+  color: #65758d;
+  line-height: 1.8;
+}
+
+/* Inicio de sesión */
+.loginpage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  background: linear-gradient(120deg, #102747, #2464af);
+}
+
+.loginbox {
+  width: min(440px, 100%);
+  padding: 37px;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 22px 60px #081d3a60;
+}
+
+.loginbox h1 {
+  color: #17395e;
+}
+
+.loginbox p {
+  color: #71829b;
+}
+
+.loginbox input {
+  width: 100%;
+  margin: 7px 0 19px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.loginbox button {
+  width: 100%;
+}
+
+.hint {
+  color: #8594a9;
+  font-size: 12px;
+}
+
+/* Diseño responsivo */
+@media (max-width: 1100px) {
+  .boards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statgrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .projects,
+  .teams {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .side {
+    width: 72px;
+    padding: 15px 8px;
+  }
+
+  .brand {
+    padding: 7px;
+    font-size: 0;
+  }
+
+  .nav {
+    justify-content: center;
+    font-size: 0;
+  }
+
+  .side small {
+    font-size: 0;
+  }
+
+  .top {
+    padding: 0 16px;
+  }
+
+  .identity strong {
+    display: none;
+  }
+
+  .content {
+    padding: 22px 14px;
+  }
+
+  .boards,
+  .projects,
+  .teams,
+  .layout2,
+  .two {
+    grid-template-columns: 1fr;
+  }
+
+  .pagehead h1 {
+    font-size: 24px;
+  }
+
+  .search {
+    min-width: 140px;
+  }
+
+  .calendar {
+    gap: 2px;
+  }
+
+  .day {
+    min-height: 74px;
+    padding: 4px;
+  }
+
+  .pill {
+    font-size: 8px;
+  }
+}
