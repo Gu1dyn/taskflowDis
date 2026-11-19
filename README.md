@@ -1,11 +1,11 @@
 # TaskFlow — Electiva I: Diseño de Aplicaciones Web I
 
-Versión académica de TaskFlow organizada en **HTML5, CSS3 y JavaScript**. Este proyecto se separó del archivo `index.html` original sin modificar las pantallas ni sus interacciones.
+Versión académica de TaskFlow organizada en **HTML5, CSS3 y JavaScript**. Este repositorio contiene el prototipo académico de TaskFlow. Se incorpora ajustes de diseño y navegación basados en Figma, conservando HTML, CSS y JavaScript puro.
 
 ## Estructura
 
 ```text
-TaskFlow_Web_Separado/
+taskflow/
 ├── index.html         # Estructura principal y vínculo a recursos
 ├── css/
 │   └── styles.css     # Estilos, diseño responsivo y colores
@@ -16,7 +16,7 @@ TaskFlow_Web_Separado/
 
 ## Ejecutar localmente
 
-1. Abre la carpeta `TaskFlow_Web_Separado` en Visual Studio Code.
+1. Abre la carpeta `taskflow` en Visual Studio Code.
 2. Abre `index.html` en un navegador (doble clic) o utiliza la extensión **Live Server**.
 3. Navega por el menú lateral. La página inicial es `#dashboard`. Puedes abrir `#login` para ver el inicio de sesión.
 
@@ -24,24 +24,19 @@ TaskFlow_Web_Separado/
 
 ## Alcance actual
 
-- Pantallas de Dashboard, Proyectos, Mis tareas (tablero y lista), Calendario, Equipo, Nueva tarea, Detalle, Perfil, Confirmación e Inicio de sesión.
+- Pantallas de Dashboard, Proyectos, Mis tareas (tablero y lista), Calendario, Equipo, Mensajes, Archivos, detalle de tarea, perfil, confirmación e inicio de sesión. El formulario de Nueva tarea se muestra en una ventana modal.
 - Navegación de prueba mediante el hash de la URL (`#tareas`, `#calendario`, etc.).
 - Las tareas y proyectos son **datos ilustrativos**. El botón «Guardar tarea» solo navega a una confirmación; aún no hay persistencia.
-- La búsqueda y el inicio de sesión son demostrativos; no validan ni filtran realmente.
+- La búsqueda y el inicio de sesión son demostrativos; no validan ni filtran realmente. El filtro de prioridad sí cambia las tarjetas mostradas, sin persistencia.
 
-## Para continuar con la actividad 4
+## Etapa 1 — Alineación visual con Figma
 
-1. Implementar creación/consulta/búsqueda funcional de tareas, si se desea un mayor nivel de funcionalidad.
-2. Agregar los elementos de contenido pedidos por la rúbrica (información, tablas, listas, imágenes y video) donde aporten valor.
-3. Publicar el sitio en un hosting gratuito y probar el enlace público.
-4. Incluir el video demostrativo y entregar su URL.
+- Se reemplazaron símbolos del menú por iconos SVG.
+- Se añadieron vistas de **Mensajes** y **Archivos**.
+- La vista **Mis tareas** incluye las cuatro pestañas de Figma y un control de filtros por prioridad.
+- La vista **Lista** ahora presenta una tabla con columnas de estado, prioridad y responsable.
+- La creación de tareas se muestra en una **modal**, sin guardar datos todavía.
+- Se armonizaron los nombres de los proyectos ilustrativos con el diseño.
+- Se corrigió la disposición del calendario de noviembre de 2026.
 
-## Commit sugerido
-
-```bash
-git add index.html css/styles.css js/app.js README.md
-git commit -m "refactor: separar estructura, estilos y lógica de TaskFlow"
-git push origin main
-```
-
-Ajusta la rama en el último comando según el nombre de la rama activa. Antes de subir, comprueba que el repositorio corresponda **a este frontend académico**, no al repositorio del backend de otra asignatura.
+**Pendiente para la etapa funcional:** búsquedas, creación y persistencia de tareas, mensajes reales, archivos adjuntos.

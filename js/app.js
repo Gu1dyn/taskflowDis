@@ -1,11 +1,54 @@
 // TaskFlow — Navegacion y vistas originales.
 
+// Iconos SVG consistentes con los componentes del diseño de Figma.
+const iconPaths = {
+  dashboard: '<path d="M3 11 12 3l9 8M5 10v10h5v-6h4v6h5V10"/>',
+  proyectos: '<path d="M3 6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  tareas: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="m8 12 2.5 2.5L16 9"/>',
+  calendario: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',
+  equipo: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/>',
+  mensajes: '<path d="M21 15a4 4 0 0 1-4 4H9l-5 3v-5a4 4 0 0 1-2-3V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z"/>',
+  perfil: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  salir: '<path d="M10 17l5-5-5-5M15 12H3M14 4h5a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5"/>',
+  tablero:
+    '<rect x="3" y="3" width="7" height="7" rx="1"/>' +
+    '<rect x="14" y="3" width="7" height="7" rx="1"/>' +
+    '<rect x="3" y="14" width="7" height="7" rx="1"/>' +
+    '<rect x="14" y="14" width="7" height="7" rx="1"/>',
+  lista: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  archivos: '<path d="M3 6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  filtro: '<path d="M4 5h16l-6 7v6l-4 2v-8z"/>',
+  buscar: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+  mas: '<path d="M12 5v14M5 12h14"/>',
+  notificaciones: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>',
+  cerrar: '<path d="M6 6l12 12M18 6 6 18"/>'
+};
+
+function icon(name, size = 19) {
+  return `
+    <svg
+      width="${size}"
+      height="${size}"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      ${iconPaths[name] || ''}
+    </svg>
+  `;
+}
+
 const nav = [
-  ['dashboard', '⌂', 'Dashboard'],
-  ['proyectos', '▣', 'Proyectos'],
-  ['tareas', '☑', 'Mis tareas'],
-  ['calendario', '▦', 'Calendario'],
-  ['equipo', '♧', 'Equipo']
+  ['dashboard', 'dashboard', 'Dashboard'],
+  ['proyectos', 'proyectos', 'Proyectos'],
+  ['tareas', 'tareas', 'Mis tareas'],
+  ['calendario', 'calendario', 'Calendario'],
+  ['equipo', 'equipo', 'Equipo'],
+  ['mensajes', 'mensajes', 'Mensajes']
 ];
 
 const tasks = [
@@ -17,12 +60,16 @@ const tasks = [
   ['Integración con base de datos', 'En curso', 'Alta', 'Valentina Ruiz', '17 nov. 2026'],
   ['Documentación Swagger', 'En revisión', 'Media', 'Laura Martínez', '13 nov. 2026'],
   ['Diseño de componentes', 'En revisión', 'Baja', 'Andrés Castaño', '16 nov. 2026'],
+  ['Pruebas de integración', 'En revisión', 'Media', 'Daniel Rojas', '20 nov. 2026'],
   ['Configuración del entorno', 'Completadas', 'Baja', 'Carlos Pérez', '10 nov. 2026'],
-  ['Estructura del proyecto', 'Completadas', 'Media', 'Ana Gómez', '11 nov. 2026']
+  ['Estructura del proyecto', 'Completadas', 'Media', 'Ana Gómez', '11 nov. 2026'],
+  ['Modelo de datos', 'Completadas', 'Baja', 'Sofía Torres', '11 nov. 2026']
 ];
 
 // Navegacion y estructura general.
 function go(name) {
+  modalOpen = false;
+  filterOpen = false;
   location.hash = name;
   render();
   window.scrollTo(0, 0);
@@ -36,29 +83,39 @@ function header() {
         TaskFlow
       </div>
       <small>Principal</small>
-      ${nav.map(([id, ico, label]) => `
-        <button class="nav ${page() === id ? 'active' : ''}" onclick="go('${id}')">
-          <span class="ico">${ico}</span>
-          ${label}
-        </button>
-      `).join('')}
+      ${nav.map(([id, iconName, label]) => {
+        const isTaskSection = id === 'tareas'
+          && ['tareas', 'tareaslista', 'archivos'].includes(page());
+        const isActive = isTaskSection || page() === id;
+
+        return `
+          <button class="nav ${isActive ? 'active' : ''}" onclick="go('${id}')">
+            <span class="ico">${icon(iconName)}</span>
+            <span class="navlabel">${label}</span>
+          </button>
+        `;
+      }).join('')}
       <small>Configuración</small>
       <button class="nav ${page() === 'perfil' ? 'active' : ''}" onclick="go('perfil')">
-        <span class="ico">♙</span>
-        Perfil
+        <span class="ico">${icon('perfil')}</span>
+        <span class="navlabel">Perfil</span>
       </button>
       <div class="bottom">
         <button class="nav" onclick="go('login')">
-          <span class="ico">⇥</span>
-          Cerrar sesión
+          <span class="ico">${icon('salir')}</span>
+          <span class="navlabel">Cerrar sesión</span>
         </button>
       </div>
     </aside>
     <div class="main">
       <header class="top">
-        <input placeholder="⌕  Buscar tareas, proyectos..." aria-label="Buscar">
+        <div class="topsearch">
+          ${icon('buscar', 17)}
+          <input placeholder="Buscar tareas, proyectos..." aria-label="Buscar" disabled
+            title="La búsqueda global estará disponible en la siguiente etapa">
+        </div>
         <div class="identity">
-          <span style="font-size:20px">♧</span>
+          <span class="topbell" aria-label="Notificaciones">${icon('notificaciones', 20)}</span>
           <span class="avatar">RB</span>
           <div>
             <strong>Rodrigo Bonilla</strong>
@@ -68,6 +125,79 @@ function header() {
         </div>
       </header>
       <main class="content">
+  `;
+}
+
+let modalOpen = false;
+let filterOpen = false;
+let priorityFilter = 'Todas';
+
+function openNewTask() {
+  modalOpen = true;
+  render();
+}
+
+function closeNewTask() {
+  modalOpen = false;
+  render();
+}
+
+function toggleFilters() {
+  filterOpen = !filterOpen;
+  render();
+}
+
+function setPriorityFilter(value) {
+  priorityFilter = value;
+  filterOpen = false;
+  render();
+}
+
+function tabs(active = 'tablero') {
+  const sections = [
+    ['tablero', 'Tablero', 'tareas'],
+    ['lista', 'Lista', 'tareaslista'],
+    ['calendario', 'Cronograma', 'calendario'],
+    ['archivos', 'Archivos', 'archivos']
+  ];
+
+  return `
+    <div class="tabs">
+      ${sections.map(([key, label, destination]) => `
+        <button class="tab ${active === key ? 'active' : ''}" onclick="go('${destination}')">
+          ${icon(key === 'calendario' ? 'calendario' : key, 16)}
+          ${label}
+        </button>
+      `).join('')}
+    </div>
+  `;
+}
+
+function taskTools(active = 'tablero') {
+  return `
+    <div class="toolrow">
+      ${tabs(active)}
+      <div class="toolactions">
+        <label class="search-wrap">
+          ${icon('buscar', 16)}
+          <input class="search" placeholder="Buscar tareas..." aria-label="Buscar tareas"
+            disabled title="La búsqueda se implementará en la etapa funcional">
+        </label>
+        <button class="btn secondary filter-trigger" onclick="toggleFilters()"
+          aria-expanded="${filterOpen}">
+          ${icon('filtro', 16)} Filtros
+        </button>
+        ${filterOpen ? `
+          <div class="filter-menu">
+            <strong>Filtrar por prioridad</strong>
+            ${['Todas', 'Alta', 'Media', 'Baja'].map(value => `
+              <button class="filter-choice ${priorityFilter === value ? 'chosen' : ''}"
+                onclick="setPriorityFilter('${value}')">${value}</button>
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+    </div>
   `;
 }
 
@@ -125,7 +255,7 @@ function dashboard() {
     ${head(
       'Dashboard',
       'Resumen general de tus proyectos y actividades.',
-      `<button class="btn" onclick="go('nueva')">+ Nueva tarea</button>`
+      `<button class="btn" onclick="openNewTask()">+ Nueva tarea</button>`
     )}
     <div class="statgrid">
       ${stats.map(([label, metric, trend]) => `
@@ -178,6 +308,7 @@ function dashboard() {
 }
 
 function tareas() {
+  const visibleTasks = tasks.filter(task => priorityFilter === 'Todas' || task[2] === priorityFilter);
   const lanes = [
     ['Por hacer', '#5d7ba1'],
     ['En curso', '#30a4ee'],
@@ -189,25 +320,21 @@ function tareas() {
     ${head(
       'Mis Tareas',
       'Organiza y da seguimiento a tus tareas.',
-      `<button class="btn" onclick="go('nueva')">+ Nueva tarea</button>`
+      `<button class="btn" onclick="openNewTask()">+ Nueva tarea</button>`
     )}
-    <div class="toolrow">
-      <div class="tabs">
-        <button class="tab active">▦ Tablero</button>
-        <button class="tab" onclick="go('tareaslista')">☷ Lista</button>
-        <button class="tab" onclick="go('calendario')">▤ Cronograma</button>
-      </div>
-      <input class="search" placeholder="⌕ Buscar tareas...">
-    </div>
+    ${taskTools('tablero')}
     <div class="boards">
       ${lanes.map(([name, color]) => `
         <section class="lane">
           <div class="lanehead">
             <span class="dot" style="background:${color}"></span>
             ${name}
-            <span class="count">${tasks.filter(task => task[1] === name).length}</span>
+            <span class="count">${visibleTasks.filter(task => task[1] === name).length}</span>
           </div>
-          ${tasks.filter(task => task[1] === name).map(taskcard).join('')}
+          ${visibleTasks
+            .filter(task => task[1] === name)
+            .map(taskcard)
+            .join('')}
         </section>
       `).join('')}
     </div>
@@ -215,44 +342,63 @@ function tareas() {
 }
 
 function tareaslista() {
+  const visibleTasks = tasks.filter(task => priorityFilter === 'Todas' || task[2] === priorityFilter);
+
   return `
     ${head(
       'Mis Tareas · Lista',
-      'Vista alternativa de las tareas.',
-      `<button class="btn" onclick="go('nueva')">+ Nueva tarea</button>`
+      'Consulta el estado, la prioridad y los responsables.',
+      `<button class="btn" onclick="openNewTask()">+ Nueva tarea</button>`
     )}
-    <div class="panel">
-      <div class="toolrow">
-        <button class="btn secondary" onclick="go('tareas')">← Volver al tablero</button>
-      </div>
-      ${tasks.map(task => `
-        <div class="listrow">
-          <div>
-            <strong>${task[0]}</strong>
-            <p class="sub">${task[1]} · ${task[3]} · ${task[4]}</p>
-          </div>
-          <button class="btn secondary" onclick="go('detalle')">Consultar</button>
-        </div>
-      `).join('')}
+    ${taskTools('lista')}
+    <div class="panel table-panel">
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th scope="col">Tarea</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Prioridad</th>
+            <th scope="col">Responsable</th>
+            <th scope="col">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${visibleTasks.map(task => `
+            <tr>
+              <td>${task[0]}</td>
+              <td>${task[1]}</td>
+              <td>
+                <span class="tag ${task[2] === 'Alta' ? 'red' : task[2] === 'Baja' ? 'green' : ''}">
+                  ${task[2]}
+                </span>
+              </td>
+              <td>${task[3]}</td>
+              <td>
+                <button class="btn secondary" onclick="go('detalle')">Ver detalle</button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
     </div>
   `;
 }
 
 function proyectos() {
   const projects = [
-    ['Portal de Servicios', '75', 'Diseño y desarrollo de portal de autogestión'],
-    ['Aplicación TaskFlow', '60', 'Gestión de tareas y colaboración'],
-    ['Sitio Web Corporativo', '90', 'Modernización de la experiencia de usuario'],
-    ['API de Proyectos', '45', 'Servicios para operaciones CRUD'],
-    ['Módulo de Reportes', '82', 'Visualización de resultados'],
-    ['Landing de Producto', '30', 'Diseño de página de aterrizaje']
+    ['Rediseño TaskFlow', '78', 'Mejora de interfaces y experiencia de usuario'],
+    ['API de Proyectos', '56', 'Servicios para operaciones CRUD'],
+    ['Portal de clientes', '34', 'Plataforma de autogestión para clientes'],
+    ['Sistema de autenticación', '65', 'Acceso y permisos de usuarios'],
+    ['Aplicación móvil', '40', 'Versión móvil del sistema'],
+    ['Documentación técnica', '85', 'Guías de implementación y uso']
   ];
 
   return `
     ${head(
       'Proyectos',
       'Consulta los proyectos y su avance.',
-      `<button class="btn" onclick="go('nueva')">+ Nueva tarea</button>`
+      `<button class="btn" onclick="openNewTask()">+ Nueva tarea</button>`
     )}
     <div class="projects">
       ${projects.map(([name, progress, description]) => `
@@ -272,23 +418,23 @@ function proyectos() {
 }
 
 function calendario() {
-  const days = Array.from({ length: 35 }, (_, index) => index + 1);
+  const days = Array.from({ length: 42 }, (_, index) => index - 5);
 
   return `
     ${head(
       'Calendario',
       'Consulta fechas y actividades programadas.',
-      `<button class="btn" onclick="go('nueva')">+ Nueva tarea</button>`
+      `<button class="btn" onclick="openNewTask()">+ Nueva tarea</button>`
     )}
     <div class="panel">
       <h2>Noviembre de 2026</h2>
       <div class="calendar">
-        ${['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map(day => `
+        ${['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map(day => `
           <div style="font-weight:700;text-align:center;color:#65809d;padding:9px">${day}</div>
         `).join('')}
         ${days.map(day => `
           <div class="day">
-            <strong>${day <= 30 ? day : ''}</strong>
+            <strong>${day >= 1 && day <= 30 ? day : ''}</strong>
             ${day === 12 ? '<div class="pill" onclick="go(\'detalle\')">API Proyectos</div>' : ''}
             ${day === 15 ? '<div class="pill" onclick="go(\'detalle\')">Tablero Kanban</div>' : ''}
             ${day === 18 ? '<div class="pill" onclick="go(\'detalle\')">Home UI/UX</div>' : ''}
@@ -323,6 +469,58 @@ function equipo() {
         </div>
       `).join('')}
     </div>
+  `;
+}
+
+function archivos() {
+  const documents = [
+    ['Guía de diseño TaskFlow', 'Documento de referencia'],
+    ['Especificación de la API', 'Documento técnico'],
+    ['Wireframes del proyecto', 'Prototipo de interfaz']
+  ];
+
+  return `
+    ${head('Archivos', 'Documentos y recursos relacionados con los proyectos.')}
+    ${taskTools('archivos')}
+    <section class="panel">
+      <h2>Documentos del proyecto</h2>
+      <p class="sub">Vista ilustrativa de los recursos del equipo.</p>
+      ${documents.map(([name, category]) => `
+        <div class="listrow">
+          <div>
+            <strong>${icon('archivos', 17)} ${name}</strong>
+            <p class="sub">${category} · Archivo ilustrativo</p>
+          </div>
+          <span class="tag">Referencia</span>
+        </div>
+      `).join('')}
+    </section>
+  `;
+}
+
+function mensajes() {
+  const messages = [
+    ['Ana Gómez', 'Se revisaron los wireframes de TaskFlow.'],
+    ['Sofía Torres', 'La documentación de la API está en revisión.'],
+    ['Laura Martínez', 'Pendiente validar las pantallas del tablero.']
+  ];
+
+  return `
+    ${head('Mensajes', 'Comunicación y novedades del equipo de trabajo.')}
+    <section class="panel">
+      <h2>Conversaciones recientes</h2>
+      ${messages.map(([name, message]) => `
+        <div class="message-row">
+          <div class="message-avatar">${name.split(' ').map(part => part[0]).join('')}</div>
+          <div>
+            <strong>${name}</strong>
+            <p class="sub">${message}</p>
+          </div>
+          <span class="tag">Ejemplo</span>
+        </div>
+      `).join('')}
+      <p class="footnote">La mensajería es ilustrativa; no envía ni almacena conversaciones.</p>
+    </section>
   `;
 }
 
@@ -378,6 +576,68 @@ function nueva() {
       </div>
       <button class="btn" onclick="go('confirmacion')">Guardar tarea</button>
       <button class="btn secondary" onclick="go('tareas')">Cancelar</button>
+    </div>
+  `;
+}
+
+// Modal de creación visual
+function newTaskModal() {
+  return `
+    <div class="modal-backdrop" onclick="if (event.target === this) closeNewTask()">
+      <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-heading">
+          <div>
+            <h2 id="modal-title">Nueva tarea</h2>
+            <p class="sub">Completa los datos de la nueva actividad.</p>
+          </div>
+          <button class="close-modal" aria-label="Cerrar" onclick="closeNewTask()">
+            ${icon('cerrar', 18)}
+          </button>
+        </div>
+        <div class="field">
+          <label for="task-title">Nombre de la tarea</label>
+          <input id="task-title" placeholder="Ej. Diseñar pantalla de inicio">
+        </div>
+        <div class="field">
+          <label for="task-desc">Descripción</label>
+          <textarea id="task-desc" placeholder="Describe el objetivo de la tarea"></textarea>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="task-project">Proyecto</label>
+            <select id="task-project">
+              <option>Rediseño TaskFlow</option>
+              <option>API de Proyectos</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="task-priority">Prioridad</label>
+            <select id="task-priority">
+              <option>Media</option>
+              <option>Alta</option>
+              <option>Baja</option>
+            </select>
+          </div>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="task-owner">Responsable</label>
+            <select id="task-owner">
+              <option>Ana Gómez</option>
+              <option>Sofía Torres</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="task-date">Fecha de entrega</label>
+            <input id="task-date" type="date" value="2026-11-18">
+          </div>
+        </div>
+        <p class="modal-note">Demostración visual: los datos todavía no se almacenan.</p>
+        <div class="modal-actions">
+          <button class="btn secondary" onclick="closeNewTask()">Cancelar</button>
+          <button class="btn" onclick="go('confirmacion')">Guardar tarea (simulación)</button>
+        </div>
+      </section>
     </div>
   `;
 }
@@ -482,6 +742,8 @@ function render() {
     proyectos,
     calendario,
     equipo,
+    mensajes,
+    archivos,
     nueva,
     detalle,
     perfil,
@@ -492,10 +754,13 @@ function render() {
   document.getElementById('app').innerHTML =
     currentPage === 'login'
       ? login()
-      : `<div class="shell">${header()}${(views[currentPage] || dashboard)()}</main></div></div>`;
+      : `<div class="shell">${header()}${(views[currentPage] || dashboard)()}</main></div></div>${modalOpen ? newTaskModal() : ''}`;
 
   document.title = 'TaskFlow · ' + currentPage;
 }
 
 window.addEventListener('hashchange', render);
+window.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && modalOpen) closeNewTask();
+});
 render();
