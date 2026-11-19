@@ -78,23 +78,17 @@ function go(name) {
 function header() {
   return `
     <aside class="side">
-      <div class="brand">
-        <span class="brandicon">◈</span>
-        TaskFlow
+      <div class="brand" aria-label="TaskFlow">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+        <span class="brand-name">Task<span>Flow</span></span>
       </div>
       <small>Principal</small>
-      ${nav.map(([id, iconName, label]) => {
-        const isTaskSection = id === 'tareas'
-          && ['tareas', 'tareaslista', 'archivos'].includes(page());
-        const isActive = isTaskSection || page() === id;
-
-        return `
-          <button class="nav ${isActive ? 'active' : ''}" onclick="go('${id}')">
-            <span class="ico">${icon(iconName)}</span>
-            <span class="navlabel">${label}</span>
-          </button>
-        `;
-      }).join('')}
+      ${nav.map(([id, ico, label]) => `
+        <button class="nav ${(id === 'tareas' ? ['tareas', 'tareaslista', 'archivos'].includes(page()) : page() === id) ? 'active' : ''}" onclick="go('${id}')">
+          <span class="ico">${icon(ico)}</span>
+          <span class="navlabel">${label}</span>
+        </button>
+      `).join('')}
       <small>Configuración</small>
       <button class="nav ${page() === 'perfil' ? 'active' : ''}" onclick="go('perfil')">
         <span class="ico">${icon('perfil')}</span>
@@ -115,13 +109,19 @@ function header() {
             title="La búsqueda global estará disponible en la siguiente etapa">
         </div>
         <div class="identity">
-          <span class="topbell" aria-label="Notificaciones">${icon('notificaciones', 20)}</span>
-          <span class="avatar">RB</span>
-          <div>
-            <strong>Rodrigo Bonilla</strong>
-            <br>
-            Desarrollador
-          </div>
+          <span class="topbell" role="img" aria-label="Notificaciones de ejemplo">
+            ${icon('notificaciones', 20)}
+            <span class="notification-count" aria-hidden="true">3</span>
+          </span>
+          <span class="top-divider" aria-hidden="true"></span>
+          <button class="profile-summary" onclick="go('perfil')" aria-label="Ver mi perfil">
+            <span class="avatar">RB</span>
+            <span class="profile-copy">
+              <strong>Rodrigo Bonilla</strong>
+              <small>Desarrollador</small>
+            </span>
+            <span class="profile-chevron" aria-hidden="true">⌄</span>
+          </button>
         </div>
       </header>
       <main class="content">
@@ -713,9 +713,9 @@ function login() {
   return `
     <div class="loginpage">
       <div class="loginbox">
-        <div class="brand" style="color:#17395e;border:0;padding:0">
-          <span class="brandicon">◈</span>
-          TaskFlow
+        <div class="brand login-brand" aria-label="TaskFlow">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+          <span class="brand-name">Task<span>Flow</span></span>
         </div>
         <h1>Bienvenido de nuevo</h1>
         <p>Accede al espacio de trabajo de tu equipo.</p>
