@@ -40,3 +40,11 @@ taskflow/
 - Se corrigió la disposición del calendario de noviembre de 2026.
 
 **Pendiente para la etapa funcional:** búsquedas, creación y persistencia de tareas, mensajes reales, archivos adjuntos.
+
+Funcionalidades
+- Tablero de tareas por estado, con menú "…" para mover tareas de columna.
+- Crear, ver, cambiar de estado y eliminar tareas (se guardan en localStorage).
+- Búsqueda por título, estado, prioridad o responsable, y filtro por prioridad.
+- Dashboard con métricas, gráfica semanal y dona de estados.
+- Calendario con tareas por día y agenda del día.
+- Pantalla de Ajustes para restablecer los datos de ejemplo.
